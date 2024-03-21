@@ -15,7 +15,7 @@ repositories {
 
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
-    testImplementation 'com.codeborne:selenide:6.17.1'
+    testImplementation 'com.codeborne:selenide-core:6.19.1'
     testCompileOnly'org.projectlombok:lombok:1.18.30'
     testAnnotationProcessor'org.projectlombok:lombok:1.18.30'
     testRuntimeOnly'org.slf4j:slf4j-simple:2.0.7'
