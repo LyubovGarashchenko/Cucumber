@@ -1,16 +1,18 @@
 package ru.netology.data;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.Value;
 
 import java.util.Random;
 
 import static java.lang.Math.abs;
 
+
 public class DataHelper {
     private DataHelper() {
 
     }
-
     public static VerificationCode getVerificationCode() {
         return new VerificationCode("12345");
     }

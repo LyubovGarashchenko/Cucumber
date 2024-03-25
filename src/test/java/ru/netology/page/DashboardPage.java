@@ -7,6 +7,8 @@ import lombok.val;
 import ru.netology.data.DataHelper;
 
 import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 
 public class DashboardPage {
     private final SelenideElement title = $("[data-test-id=dashboard]");
@@ -30,8 +32,9 @@ public class DashboardPage {
         return extractBalance(text);
     }
 
-    public MoneyTransferPage selectCardToTransfer(DataHelper.CardInfo cardInfo) {
-        cards.findBy(Condition.attribute("data-test-id", cardInfo.getTestId())).$("button").click();
+    public MoneyTransferPage selectCardToTransfer(Condition attribute, DataHelper.CardInfo cardInfo) {
+        cards.findBy(Condition.attribute("data-test-id", cardInfo.getTestId()))
+                .$("button").click();
         return new MoneyTransferPage();
     }
 

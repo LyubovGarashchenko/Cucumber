@@ -12,6 +12,7 @@ import ru.netology.page.VerificationPage;
 import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.TypeOptions.text;
 
 public class TemplateSteps {
@@ -31,12 +32,12 @@ public class TemplateSteps {
         }
 
         @Когда("пользователь переводит 5 000 рублей с карты с номером 5559 0000 0000 0002 на свою 1 карту с главной страницы")
-        public void validMoneyTransfer(DataHelper.CardInfo cardInfo) {
+        public void validMoneyTransfer(String amountToTransfer, DataHelper.CardInfo cardInfo) {
             moneyTransferPage = dashboardPage.selectCardToTransfer(Condition.attribute("data-test-id",
-                    cardInfo.getTestId())).$("button").click();
-        }
+                            "0f3f5c2a-249e-4c3d-8287-09f7a039391d"))
+                    .makeValidTransfer(5000, "5559 0000 0000 0002", "0f3f5c2a-249e-4c3d-8287-09f7a039391d");
 
-        @Тогда("тогда баланс его 1 карты из списка на главной странице должен стать 15 000 рублей.")
+        }@Тогда("тогда баланс его 1 карты из списка на главной странице должен стать 15 000 рублей.")
         public void setMoneyTransferPage() {
             dashboardPage.getCardBalance(15_000);
         }
@@ -44,13 +45,13 @@ public class TemplateSteps {
         @Когда("пользователь переводит 50 000 рублей с карты с номером 5559 0000 0000 0002 на свою 1 карту с главной страницы")
         public void validMoneyTransfer(DataHelper.CardInfo cardInfo) {
             moneyTransferPage = dashboardPage.selectCardToTransfer(Condition.attribute("data-test-id")
-                    cardInfo.getTestId())).$("button").click();
+                    cardInfo.getTestId()).$("button").click();
         }
 
         @Тогда("Появится ошибка о выполнении попытки перевода суммы, превышающей остаток на карте списания")
         public void findErrorMessage(String) {
             dashboardPage = moneyTransferPage.findErrorMessage("Появится ошибка о выполнении попытки " +
-                    "перевода суммы, превышающей остаток на карте списания").shouldHave(text(expectedText),
-                    Duration.ofSeconds(15)).shouldBe(visible);
+                    "перевода суммы, превышающей остаток на карте списания");
+
         }
-    }
+}
