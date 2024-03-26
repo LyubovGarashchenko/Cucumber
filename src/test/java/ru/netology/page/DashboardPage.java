@@ -27,7 +27,7 @@ public class DashboardPage {
         return extractBalance(text);
     }
 
-    public int getCardBalance(int index) {
+        public int getCardBalance(int index) {
         var text = cards.get(index).getText();
         return extractBalance(text);
     }
