@@ -9,17 +9,29 @@ import ru.netology.page.LoginPage;
 import ru.netology.page.MoneyTransferPage;
 import ru.netology.page.VerificationPage;
 
+import static java.awt.SystemColor.info;
+import static javax.swing.UIManager.get;
+import static ru.netology.data.DataHelper.getAuthInfo;
+
 public class TemplateSteps {
         private static LoginPage loginPage;
         private static DashboardPage dashboardPage;
         private static VerificationPage verificationPage;
         private static MoneyTransferPage moneyTransferPage;
 
-        @Пусть("пользователь залогинен с именем «vasya» и паролем «qwerty123»")
-        public void loginWithNameAndPassword(DataHelper.AuthInfo info) {
-            verificationPage = loginPage.validLogin(new DataHelper.AuthInfo(info.getLogin(), info.getPassword()));
+        public static void setLoginPage(LoginPage loginPage) {
+                TemplateSteps.loginPage = loginPage;
         }
 
+        @Пусть("пользователь залогинен с именем {string} и паролем {string}")
+        public void loginWithNameAndPassword(String login, String password) {
+                verificationPage = loginPage.validLogin(new DataHelper.AuthInfo("vasya", "qwerty123"));
+
+            //verificationPage = loginPage.validLogin(new DataHelper.AuthInfo("vasya", "qwerty123"));
+        }
+// String login, String password// // info // , "vasya", "qwerty123"//, String login, String password
+// var authInfo = getAuthInfo();info.getLogin(), info.getPassword())
+//        var verificationPage = loginPage.validLogin(authInfo)getAuthInfo()
         @И("пользователь вводит проверочный код 'из смс' {string}")
         public void enterValidCode(DataHelper.VerificationCode code) {
             dashboardPage = verificationPage.validVerify(new DataHelper.VerificationCode("12345"));
@@ -30,7 +42,7 @@ public class TemplateSteps {
             dashboardPage = moneyTransferPage.makeValidTransfer(amountToTransfer, cardInfo);
         }
 
-        @Тогда("тогда баланс его 1 карты из списка на главной странице должен стать 15 000 рублей.")
+        @Тогда("тогда баланс его 1 карты из списка на главной странице должен стать 15 000 рублей")
         public void getCardBalance (int index) {
         dashboardPage.getCardBalance(15);
         }
@@ -40,10 +52,10 @@ public class TemplateSteps {
             dashboardPage = moneyTransferPage.makeValidTransfer(amountToTransfer, cardInfo);
         }
 
-        @Тогда("Появится ошибка о выполнении попытки перевода суммы, превышающей остаток на карте списания")
+        @Тогда("появляется ошибка об попытке перевода суммы, превышающей остаток на карте списания")
         public void findErrorMessage(String expectedText) {
-                moneyTransferPage.findErrorMessage("Появится ошибка о выполнении попытки " +
-                        "перевода суммы, превышающей остаток на карте списания");
+                moneyTransferPage.findErrorMessage("Выполнена попытка перевода суммы " +
+                        "превышающей остаток на карте списания");
 
         }
 }
